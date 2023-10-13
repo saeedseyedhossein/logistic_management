@@ -14,6 +14,8 @@ class RegisterView(ModelViewSet):
         serializer = CompanySerializer(data=request.data)
         if not serializer.is_valid():
             return Response({'ok' : False, 'error' : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        if Company.objects.filter(username=request.POST.get('username')).first():
+            return Response({'ok' : False, 'error': 'User already exists'}, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({'ok' : True, 'company' : serializer.data}, status=status.HTTP_201_CREATED)
 
