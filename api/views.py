@@ -37,15 +37,16 @@ class LoginView(ModelViewSet):
             key=settings.JWT_KEY,
             algorithm='HS256',
             payload={'com_id' : instance.id,
+                     'username' : instance.username,
                      'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
                      'iat' : datetime.datetime.utcnow()}
         )
         response = Response(status=status.HTTP_200_OK)
-        response.data = {'ok' : True, 'token' : token}
+        response.data = {'ok' : True, 'company': serializer.data, 'token' : token}
         response.set_cookie(key='token', value=token, httponly=True)
 
         return response
     
 class Test(ModelViewSet):
     def test(self, request):
-        return Response({'test passed. you are logged in.'})
+        return Response({f"test passed. you are logged in {request.username}."})

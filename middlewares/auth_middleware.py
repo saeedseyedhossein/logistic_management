@@ -11,14 +11,14 @@ class AuthMiddleware:
     
     def __call__(self, request):
         # print('before view')
-        if '/login' in request.path or '/register' in request.path:
+        if '/login' in request.path or '/register' in request.path or '/api-docs' in request.path:
             response = self.get_response(request)
         # print('after view')
             return response 
         
         token = request.headers.get('Authorization')
         try:
-            jwt.decode(
+            payload = jwt.decode(
                 jwt=token,
                 algorithms=['HS256'],
                 key=settings.JWT_KEY
@@ -29,6 +29,8 @@ class AuthMiddleware:
             #     'ok' : False,
             #     'error' : 'you are not authorized'
             # }, status=status.HTTP_401_UNAUTHORIZED)
+        request.username = payload['username']
+        request.com_id = payload['com_id']
         response = self.get_response(request)
         # print('after view')
         return response

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'drf_yasg',
+    'corsheaders' #fronend issue
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'middlewares.auth_middleware.AuthMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #frontend issue
 ]
 
 ROOT_URLCONF = 'logistic.urls'
@@ -135,3 +138,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JWT_KEY =  env('JWT_KEY')
+CORS_ORIGIN_ALLOW_ALL = True #frontend issue
+CORS_ALLOW_CREDENTIALS = True # frotend issue
