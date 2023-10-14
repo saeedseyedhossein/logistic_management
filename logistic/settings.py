@@ -15,17 +15,18 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import os
+SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^@^i+tn#*y4vra6&6ak43z&b_$c&^h_9scy4zh=utlf6mmhyj('
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+# SECRET_KEY = 'django-insecure-^@^i+tn#*y4vra6&6ak43z&b_$c&^h_9scy4zh=utlf6mmhyj('
 
 
 # Application definition
@@ -79,19 +80,22 @@ WSGI_APPLICATION = 'logistic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import environ
-env = environ.Env()
-environ.Env.read_env()
-SECRET_KEY = env("SECRET_KEY")
+# import environ
+# os.environ.get = environ.Env()
+# environ.Env.read_env()
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+
+
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DB_NAME'),
-        'USER':env('DB_USER'),
-        'PASSWORD':env('DB_PASSWORD'),
-        'HOST':env('DB_HOST'),
-        'PORT':env('DB_PORT')
+        'ENGINE': os.environ.get("DB_ENGINE"),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER':os.environ.get('DB_USER'),
+        'PASSWORD':os.environ.get('DB_PASSWORD'),
+        'HOST':os.environ.get('DB_HOST'),
+        'PORT':os.environ.get('DB_PORT')
 
     }
 }
@@ -137,6 +141,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-JWT_KEY =  env('JWT_KEY')
+JWT_KEY =  os.environ.get('JWT_KEY')
 CORS_ORIGIN_ALLOW_ALL = True #frontend issue
 CORS_ALLOW_CREDENTIALS = True # frotend issue

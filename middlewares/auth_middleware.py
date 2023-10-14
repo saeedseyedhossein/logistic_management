@@ -17,6 +17,7 @@ class AuthMiddleware:
             return response 
         
         token = request.headers.get('Authorization')
+        # token = request.COOKIE.get('token')
         try:
             payload = jwt.decode(
                 jwt=token,
